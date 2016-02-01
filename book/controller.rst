@@ -629,7 +629,7 @@ For example, imagine you're processing a form submission::
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // do some sort of processing
 
             $this->addFlash(

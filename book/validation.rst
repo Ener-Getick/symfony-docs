@@ -234,7 +234,7 @@ workflow looks like the following from inside a controller::
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // the validation passed, do something with the $author object
 
             return $this->redirectToRoute(...);

@@ -586,7 +586,7 @@ method:
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             // ... perform some action, such as saving the data to the database
@@ -615,7 +615,7 @@ method:
 
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
 
                 // ... perform some action, such as saving the data to the database

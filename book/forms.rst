@@ -274,6 +274,12 @@ possible paths:
    :method:`Symfony\\Component\\Form\\FormInterface::isValid` returns ``false``
    if the form was not submitted.
 
+   .. caution::
+
+       This behavior is deprecated since version 3.1 and :method:`Symfony\\Component\\Form\\FormInterface::isValid` will throw an exception in 4.0 when detecting that the form was not submitted.
+
+       Prefer using :method:`Symfony\\Component\\Form\\FormInterface::isSubmitted` before.
+
 #. When the user submits the form, :method:`Symfony\\Component\\Form\\FormInterface::handleRequest`
    recognizes this and immediately writes the submitted data back into the
    ``task`` and ``dueDate`` properties of the ``$task`` object. Then this object
@@ -331,7 +337,7 @@ In your controller, use the button's
 :method:`Symfony\\Component\\Form\\ClickableInterface::isClicked` method for
 querying if the "Save and add" button was clicked::
 
-    if ($form->isValid()) {
+    if ($form->isSubmitted() && $form->isValid()) {
         // ... perform some action, such as saving the task to the database
 
         $nextAction = $form->get('saveAndAdd')->isClicked()
@@ -353,7 +359,7 @@ In the previous section, you learned how a form can be submitted with valid
 or invalid data. In Symfony, validation is applied to the underlying object
 (e.g. ``Task``). In other words, the question isn't whether the "form" is
 valid, but whether or not the ``$task`` object is valid after the form has
-applied the submitted data to it. Calling ``$form->isValid()`` is a shortcut
+applied the submitted data to it. Calling ``$form->isSubmitted() && $form->isValid()`` is a shortcut
 that asks the ``$task`` object whether or not it has valid data.
 
 Validation is done by adding a set of rules (called constraints) to a class. To
@@ -697,7 +703,7 @@ the documentation for each type.
     is left blank. If you don't want this behavior, either
     :ref:`disable HTML5 validation <book-forms-html5-validation-disable>`
     or set the ``required`` option on your field to ``false``::
-    
+
         ->add('dueDate', 'date', array(
             'widget' => 'single_text',
             'required' => false
@@ -1262,7 +1268,7 @@ to be persisted via Doctrine (i.e. you've added
 :ref:`mapping metadata <book-doctrine-adding-mapping>` for it), then persisting
 it after a form submission can be done when the form is valid::
 
-    if ($form->isValid()) {
+    if ($form->isSubmitted() && $form->isValid()) {
         $em = $this->getDoctrine()->getManager();
         $em->persist($task);
         $em->flush();
@@ -1865,7 +1871,7 @@ an array of the submitted data. This is actually really easy::
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // data is an array with "name", "email", and "message" keys
             $data = $form->getData();
         }

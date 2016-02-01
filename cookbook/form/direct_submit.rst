@@ -22,7 +22,7 @@ submissions::
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // perform some action...
 
             return $this->redirectToRoute('task_success');

@@ -120,7 +120,7 @@ Finally, you need to update the code of the controller that handles the form::
             $form = $this->createForm(ProductType::class, $product);
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 // $file stores the uploaded PDF file
                 /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
                 $file = $product->getBrochure();

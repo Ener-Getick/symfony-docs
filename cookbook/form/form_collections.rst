@@ -166,7 +166,7 @@ In your controller, you'll create a new form from the ``TaskType``::
 
             $form->handleRequest($request);
 
-            if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 // ... maybe do some form processing, like saving the Task and Tag objects
             }
 
@@ -693,7 +693,7 @@ the relationship between the removed ``Tag`` and ``Task`` object.
 
             $editForm->handleRequest($request);
 
-            if ($editForm->isValid()) {
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
 
                 // remove the relationship between the tag and the Task
                 foreach ($originalTags as $tag) {

@@ -106,12 +106,12 @@ file.
     If you're using annotations to specify your validation rules (as shown
     in this example), be sure that you've enabled validation by annotation
     (see :ref:`validation configuration <book-validation-configuration>`).
-    
+
 .. caution::
 
-   If you use the ``getUploadRootDir()`` method, be aware that this will save 
-   the file inside the document root, which can be accessed by everyone. 
-   Consider placing it out of the document root and adding custom viewing 
+   If you use the ``getUploadRootDir()`` method, be aware that this will save
+   the file inside the document root, which can be accessed by everyone.
+   Consider placing it out of the document root and adding custom viewing
    logic when you need to secure the files.
 
 To handle the actual file upload in the form, use a "virtual" ``file`` field.
@@ -252,7 +252,7 @@ The following controller shows you how to handle the entire process::
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($document);
@@ -273,7 +273,7 @@ persisted and then set the ``path`` property accordingly. Start by calling
 a new ``upload()`` method on the ``Document`` class, which you'll create
 in a moment to handle the file upload::
 
-    if ($form->isValid()) {
+    if ($form->isSubmitted() && $form->isValid()) {
         $em = $this->getDoctrine()->getManager();
 
         $document->upload();
@@ -440,7 +440,7 @@ entity is ever deleted.
 Now that the moving of the file is handled atomically by the entity, the
 call to ``$document->upload()`` should be removed from the controller::
 
-    if ($form->isValid()) {
+    if ($form->isSubmitted() && $form->isValid()) {
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($document);
